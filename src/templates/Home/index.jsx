@@ -1,8 +1,10 @@
 import "./styles.css";
 import { Component } from "react";
-import { PostCard } from "../../components/PostCard/";
+
 import { Button } from "../../components/Button/";
 import { loadPosts } from "../../utils/load-posts";
+import { InputText } from "../../components/InputText";
+import { CardList } from "../../components/CardList";
 
 export class Home extends Component {
   state = {
@@ -47,20 +49,16 @@ export class Home extends Component {
 
     return (
       <section className="container">
-        {!!searchValue && <h1>Search value: {searchValue}</h1>}
+        <div className="search-container">
+          {!!searchValue && <h1>Search value: {searchValue}</h1>}
 
-        <input onChange={this.handleChange} value={searchValue} type="search" />
-        {filteredPosts.length > 0 ? (
-          <div className="posts">
-            {filteredPosts.map((post) => (
-              <PostCard key={post.id} post={post} />
-            ))}
-          </div>
-        ) : (
-          <p>Não existem posts</p>
-        )}
+          <InputText searchValue={searchValue} handleChange={this.handleChange} />
+        </div>
+        <div className="cards-container">
+          <CardList filteredPosts={filteredPosts} />
 
-        {!!!searchValue && <Button text="Load more cards" onClick={this.loadMorePosts} disabled={noMorePosts} />}
+          {!!!searchValue && <Button text="Load more cards" onClick={this.loadMorePosts} disabled={noMorePosts} />}
+        </div>
       </section>
     );
   }
